@@ -2,17 +2,41 @@
 <portlet:defineObjects />
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html; charset=UTF-8" %>
+<!DOCTYPE html>
 <html>
 <head>
 <head>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script type="text/javascript">
+	function doGet(id){
+		 document.getElementById('buffer').value =id;
+			//alert("asdf");
+			document.getElementById(id).style.color= "red";
+		 $.ajax({
+				url: "<%=renderResponse.encodeURL(renderRequest.getContextPath()+"/do")%>",
+				data: {
+					name: id
+				},
+				format: "text",
+				success: function(result){
+					var table = '';
+					$(result).find('product').each(function(){
+						table += "<div>";
+						//var name = $(this).find('name').text();
+						table += $(this).find('name').text();
+						table += "</div>"
+					});
+					$("#f_name").html(result);
+				}
+			});
+	
+	}
 	$(document).ready(function(){
-		$("#noLink").click(function(){
+		$("tod").click(function(){
 			$.ajax({
 				url: "<%=renderResponse.encodeURL(renderRequest.getContextPath()+"/do")%>",
 				data: {
-					name: "the name"
+					name: "#buffer".text
 				},
 				format: "text",
 				success: function(result){
@@ -30,18 +54,24 @@
 	});
 			
 </script>
-<script type="text/javascript">
 
-</script>
+<style type="text/css">
+.poin{
+	cursor: pointer;
+}
+</style>
 </head>
 <body> 
-<button type="button">Click me</button>
-<a href="<%=renderResponse.encodeURL(renderRequest.getContextPath()+"/do")%>">test</a>     
-<h1>Hello</h1>
-<c:forEach var = "j" begin = "0" end = "9">
 
-<div style="float: left" id = "noLink">${j} </div>
-</c:forEach>
 <div id = "f_name"></div>
+<input type = "text" id = "buffer">
+<table cellspacing = "5">
+	<tr>
+		<c:forEach var = "j" begin = "0" end = "9">
+			<td id = "${j}" width="25" onclick = "doGet(${j})" class = "poin"> ${j} </td>	
+		</c:forEach>	
+	</tr>
+
+</table>
 </body>
 </html>

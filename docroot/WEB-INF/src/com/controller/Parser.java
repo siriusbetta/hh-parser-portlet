@@ -67,7 +67,7 @@ public class Parser {
 						from = Integer.parseInt(obj23.getString("from"));
 						to = Integer.parseInt(obj23.getString("to"));
 					}catch(NumberFormatException ne){
-						log.error("A symbol wrong, have to be a gigit: ", ne);
+						//log.error("A symbol wrong, have to be a gigit: ", ne);
 					}
 				}
 				JSONObject obj2 = (JSONObject) obj1.get("employer");

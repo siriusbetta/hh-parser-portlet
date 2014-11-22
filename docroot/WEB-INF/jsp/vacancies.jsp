@@ -35,16 +35,21 @@
 					date: cbDateV,
 					money: cbMoneyV
 				},
-				format: "text",
+				format: "xml",
 				success: function(result){
 					var table = '';
-					$(result).find('product').each(function(){
-						table += "<div>";
+					$(result).find('vacancy').each(function(){
+						table += '<div>';
 						//var name = $(this).find('name').text();
-						table += $(this).find('name').text();
+						table += '<div><font size="1"><b>' + $(this).find('name').text() + '</b></font></div>';
+						table += '<font size="1">' + $(this).find('employer').text() +'</font><div>';
+						table += 'От: ' + $(this).find('from').text()+'    До: ' + $(this).find('from').text()+'</div>';
+						table += '<font size="1">' + 'Дата создания: ' + $(this).find('date').text() + '</font>';
+						table += '<br>';
+						table += '--------------------------------';
 						table += "</div>"
 					});
-					$("#f_name").html(result);
+					$("#f_name").html(table);
 				}
 			});
 	}
@@ -64,11 +69,14 @@
     
 <script type="text/javascript">
 function pageStart(){
+	//alert('yes');
 	document.getElementById('buffer').value = 1;
-	document.getElementById(id).style.color= "red";
+	document.getElementById(1).style.color= "red";
 	doGet(1);
 }
+window.onload = pageStart;
 </script>
+
 <style type="text/css">
 .poin{
 	cursor: pointer;

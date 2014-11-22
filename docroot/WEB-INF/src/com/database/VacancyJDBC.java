@@ -35,8 +35,8 @@ public class VacancyJDBC {
 		log.info("Insert to database one item");
 	}
 	public void insert(List<Vacancy> vacancy) throws SQLException{
-		String sql = "insert into vacancy (name, employer, datacreation, salaryfrom, salaryto) "
-				+ "values (?, ?, ?, ?, ?)";
+		String sql = "insert into vacancy (id, name, employer, datacreation, salaryfrom, salaryto) "
+				+ "values (0, ?, ?, ?, ?, ?)";
 		ps = connection.prepareStatement(sql);
 		for(Vacancy v: vacancy){
 			ps.setString(1, v.getName());
@@ -71,5 +71,13 @@ public class VacancyJDBC {
 		}
 		log.info("Select from database items");
 		return vacancyList;
+	}
+	
+	public int getCount() throws SQLException{
+		String sql = "select count(name) from vacancy";
+		ps = connection.prepareStatement(sql);
+		rs = ps.executeQuery();
+		int count = rs.getInt(1);
+		return count;
 	}
 }

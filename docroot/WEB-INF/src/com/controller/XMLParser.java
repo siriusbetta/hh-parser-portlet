@@ -13,10 +13,11 @@ public class XMLParser {
 	public String createXML(ArrayList<Vacancy> vacancies) throws ParserConfigurationException, FactoryConfigurationError, TransformerException{
 		XMLBuilder builder = XMLBuilder.create("vacancies");
 		for(Vacancy i : vacancies){
+			//System.out.println(i.getName());
 			builder.element("vacancy")
 									  .element("name").text(i.getName()).up()
-									  .element("employeer").text(i.getEmployer()).up()
-									  .element("data").text(i.getDateCreatetion()).up()
+									  .element("employer").text(i.getEmployer()).up()
+									  .element("date").text(i.getDateCreatetion()).up()
 									  .element("from").text(String.valueOf(i.getSalaryFrom())).up()
 									  .element("to").text(String.valueOf(i.getSalaryTo())).up()
 									  .up();

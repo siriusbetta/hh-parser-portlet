@@ -6,6 +6,10 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 
+import javax.xml.parsers.FactoryConfigurationError;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+
 import org.apache.log4j.Logger;
 
 import com.database.MySQLConnection;
@@ -18,25 +22,32 @@ public class Controller {
 	static Logger log = Logger.getLogger(Controller.class.getName());
 	private MySQLConnection mySqlconnection = null;
 	private Connection connection = null;
+	VacancyJDBC	vd = null;
+	XMLParser xmlParser = null;
 	public Controller(){
 		//System.out.println("Contrller");
 		String dbURL = PortletProps.get("url");
 		String dbUser = PortletProps.get("user");
 		String dbPassword = PortletProps.get("pass");
+		
+		xmlParser = new XMLParser();
 		try {
 			mySqlconnection = new MySQLConnection(dbURL, dbUser, dbPassword);
 			connection = mySqlconnection.getConnection();
+			vd = new VacancyJDBC(connection);
 		} catch (ClassNotFoundException cne) {
 			log.error("Class not found exception in SQL connection: ", cne);
 		} catch (SQLException sqle) {
 			log.error("SQL exception in SQL connection: ", sqle);
-		}finally{
-			mySqlconnection.closeConnection();
 		}
+		
+		
+	}
+	
+	public void getAndWriteVacancies(){
 		ArrayList<Vacancy> vacanciesList = getVacancies();
 		writeToDatabase(vacanciesList);
 	}
-	
 	private ArrayList<Vacancy> getVacancies(){
 		ArrayList<Vacancy> vacancyList = new ArrayList<Vacancy>();
 		Parser parser = new Parser();
@@ -54,7 +65,7 @@ public class Controller {
 	}
 	private void writeToDatabase(ArrayList<Vacancy> vacancyList){
 		
-		VacancyJDBC	vd = new VacancyJDBC(connection);
+		//VacancyJDBC	vd = new VacancyJDBC(connection);
 		try {
 			vd.insert(vacancyList);
 		} catch (SQLException sqle) {
@@ -64,7 +75,24 @@ public class Controller {
 	
 	public String getVacanciesDatabase(int limitFrom, int limitTo, boolean orderByData,
 			boolean orderByMoney){
-		
-		return "";
+		ArrayList<Vacancy> vacancyList = new ArrayList<Vacancy>();
+		String xml = "";
+		try {
+			vacancyList = vd.getVacncy(limitFrom, limitTo, orderByData, orderByMoney);
+		} catch (SQLException e) {
+			log.error("SQL exception. Trying to get data from database with ordering", e);
+		} catch (ParseException e) {
+			log.error("Parsing exception. Trying to get data from database with ordering", e);
+		}
+		try {
+			xml = xmlParser.createXML(vacancyList);
+		} catch (ParserConfigurationException e) {
+			log.error("ParserConfigurationException. Trying to get data from database with ordering", e);
+		} catch (FactoryConfigurationError e) {
+			log.error("FactoryConfigurationException. Trying to get data from database with ordering", e);
+		} catch (TransformerException e) {
+			log.error("TransformerException. Trying to get data from database with ordering", e);
+		}
+		return xml;
 	}
 }

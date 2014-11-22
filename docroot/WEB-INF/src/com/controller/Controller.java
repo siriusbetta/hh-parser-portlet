@@ -17,8 +17,22 @@ import com.liferay.util.portlet.PortletProps;
 public class Controller {
 	static Logger log = Logger.getLogger(Controller.class.getName());
 	private MySQLConnection mySqlconnection = null;
+	private Connection connection = null;
 	public Controller(){
 		//System.out.println("Contrller");
+		String dbURL = PortletProps.get("url");
+		String dbUser = PortletProps.get("user");
+		String dbPassword = PortletProps.get("pass");
+		try {
+			mySqlconnection = new MySQLConnection(dbURL, dbUser, dbPassword);
+			connection = mySqlconnection.getConnection();
+		} catch (ClassNotFoundException cne) {
+			log.error("Class not found exception in SQL connection: ", cne);
+		} catch (SQLException sqle) {
+			log.error("SQL exception in SQL connection: ", sqle);
+		}finally{
+			mySqlconnection.closeConnection();
+		}
 		ArrayList<Vacancy> vacanciesList = getVacancies();
 		writeToDatabase(vacanciesList);
 	}
@@ -39,21 +53,7 @@ public class Controller {
 		return vacancyList;
 	}
 	private void writeToDatabase(ArrayList<Vacancy> vacancyList){
-		String dbURL = PortletProps.get("url");
-		String dbUser = PortletProps.get("user");
-		String dbPassword = PortletProps.get("pass");
-		Connection connection = null;
 		
-		try {
-			mySqlconnection = new MySQLConnection(dbURL, dbUser, dbPassword);
-			connection = mySqlconnection.getConnection();
-		} catch (ClassNotFoundException cne) {
-			log.error("Class not found exception in SQL connection: ", cne);
-		} catch (SQLException sqle) {
-			log.error("SQL exception in SQL connection: ", sqle);
-		}finally{
-			mySqlconnection.closeConnection();
-		}
 		VacancyJDBC	vd = new VacancyJDBC(connection);
 		try {
 			vd.insert(vacancyList);
@@ -62,7 +62,8 @@ public class Controller {
 		}
 	}
 	
-	public String getVacanciesDatabase(String limitFrom, String limitTo, String orderBy){
+	public String getVacanciesDatabase(int limitFrom, int limitTo, boolean orderByData,
+			boolean orderByMoney){
 		
 		return "";
 	}

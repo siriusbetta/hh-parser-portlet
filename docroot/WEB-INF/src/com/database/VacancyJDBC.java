@@ -50,10 +50,21 @@ public class VacancyJDBC {
 		
 	}
 	
-	public ArrayList<Vacancy> getVacncy() throws SQLException, ParseException{
-		String sql = "select * from vacancy limit 10";
+	public ArrayList<Vacancy> getVacncy(int pageLimitStart, int pageLimitEnd, boolean dateDesc, boolean moneyDesc) throws SQLException, ParseException{
+		String sql = "";
+		if(dateDesc && moneyDesc){
+			sql = "select * from vacancy order by datacreation desc, salaryfrom desc, salaryto desc limit ?, ?";
+		}else if(dateDesc){
+			sql = "select * from vacancy order by datacreation desc limit ?, ?";
+		}else if(moneyDesc){
+			sql = "select * from vacancy order by salaryfrom desc, salaryto desc limit ?, ?";
+		}else{
+			sql = "select * from vacancy limit ?, ?";
+		}
 		ArrayList<Vacancy> vacancyList = new ArrayList<Vacancy>();
 		ps = connection.prepareStatement(sql);
+		ps.setInt(1, pageLimitStart);
+		ps.setInt(2, pageLimitEnd);
 		rs = ps.executeQuery();
 		while(rs.next()){
 			vacancyList.add(new Vacancy(rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6)));

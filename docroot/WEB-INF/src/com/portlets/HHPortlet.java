@@ -30,7 +30,7 @@ public class HHPortlet extends GenericPortlet{
 	
 	@RenderMode (name = "VIEW")
 	public void renderForm(RenderRequest request, RenderResponse response){
-		Controller controller = new Controller();
+		//Controller controller = new Controller();
 		
 		try {
 			getPortletContext().getRequestDispatcher("/WEB-INF/jsp/vacancies.jsp").include(request, response);

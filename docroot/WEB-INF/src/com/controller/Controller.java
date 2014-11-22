@@ -16,8 +16,9 @@ import com.liferay.util.portlet.PortletProps;
 
 public class Controller {
 	static Logger log = Logger.getLogger(Controller.class.getName());
+	private MySQLConnection mySqlconnection = null;
 	public Controller(){
-		System.out.println("Contrller");
+		//System.out.println("Contrller");
 		ArrayList<Vacancy> vacanciesList = getVacancies();
 		writeToDatabase(vacanciesList);
 	}
@@ -44,11 +45,14 @@ public class Controller {
 		Connection connection = null;
 		
 		try {
-			connection = new MySQLConnection(dbURL, dbUser, dbPassword).getConnection();
+			mySqlconnection = new MySQLConnection(dbURL, dbUser, dbPassword);
+			connection = mySqlconnection.getConnection();
 		} catch (ClassNotFoundException cne) {
 			log.error("Class not found exception in SQL connection: ", cne);
 		} catch (SQLException sqle) {
 			log.error("SQL exception in SQL connection: ", sqle);
+		}finally{
+			mySqlconnection.closeConnection();
 		}
 		VacancyJDBC	vd = new VacancyJDBC(connection);
 		try {
@@ -56,5 +60,10 @@ public class Controller {
 		} catch (SQLException sqle) {
 			log.error("Tryed to insert data to database. SQL exception: ", sqle);
 		}
+	}
+	
+	public String getVacanciesDatabase(String limitFrom, String limitTo, String orderBy){
+		
+		return "";
 	}
 }

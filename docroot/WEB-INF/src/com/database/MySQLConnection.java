@@ -28,9 +28,13 @@ public class MySQLConnection {
 		return this.connection;
 	}
 	
-	public void closeConnection() throws SQLException{
+	public void closeConnection(){
 		log.info("Database connection closed!");
-		this.connection.close();
+		try {
+			this.connection.close();
+		} catch (SQLException e) {
+			log.error("SQL Exception. Trying to close MySQL connection.", e);
+		}
 	}
 
 }

@@ -29,7 +29,7 @@ public class HHPortlet extends GenericPortlet {
 	public void renderForm(RenderRequest request, RenderResponse response) {
 		Controller controller = new Controller();
 		
-		//controller.getAndWriteVacancies();
+		controller.getAndWriteVacancies();
 		System.out.println(request.getContextPath());
 		try {
 			getPortletContext().getRequestDispatcher("/WEB-INF/jsp/vacancies.jsp").include(request, response);

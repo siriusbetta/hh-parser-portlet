@@ -61,34 +61,50 @@ public class VacancyJDBC {
 			desc = "desc";
 		}
 		if(orderBy.equals("money")){
-			sql = "select * from vacancy order by ? ?, ? ? limit ?, ?";
-			System.out.println(orderBy);
+			sql = "select * from vacancy order by salaryfrom, salaryto limit ?, ?";
 			ps = connection.prepareStatement(sql);
-			ps.setString(1, "salaryfrom");
-			ps.setString(2, desc);
-			ps.setString(3, "salaryto");
-			ps.setString(4, desc);
-			ps.setInt(5, pageLimitStart);
-			ps.setInt(6, pageLimitEnd);
+			log.info("Select from database items order by by money");
 		}
-		if(orderBy.equals("datacreation")){
-			sql = "select * from vacancy order by ? ? limit ?, ?";
+		
+		if(orderBy.equals("money") && desk){
+			sql = "select * from vacancy order by salaryfrom desc, salaryto desc limit ?, ?";
 			ps = connection.prepareStatement(sql);
-			ps.setString(1, "datacreation");
-			ps.setString(2, desc);
-			
-			ps.setInt(3, pageLimitStart);
-			ps.setInt(4, pageLimitEnd);
+			log.info("Select from database items order by money and desc");
+
+		}
+		
+		if(orderBy.equals("datacreation")){
+			sql = "select * from vacancy order by datacreation limit ?, ?";
+			ps = connection.prepareStatement(sql);
+			log.info("Select from database items order by date");
+		}
+		
+		if(orderBy.equals("datacreation") && desk){
+			sql = "select * from vacancy order by datacreation desc limit ?, ?";
+			ps = connection.prepareStatement(sql);
+			log.info("Select from database items order by date and desc");
 		}
 
+		if(orderBy.equals("money&date")){
+			sql = "select * from vacancy order by datacreation, salaryfrom, salaryto limit ?, ?";
+			ps = connection.prepareStatement(sql);
+			log.info("Select from database items order by date and money");
+		}
+		
+		if(orderBy.equals("money&date") && desk){
+			sql = "select * from vacancy order by datacreation desc, salaryfrom desc, salaryto desc limit ?, ?";
+			ps = connection.prepareStatement(sql);
+			log.info("Select from database items order by date and money with desc");
+
+		}
+		
 		ArrayList<Vacancy> vacancyList = new ArrayList<Vacancy>();
-	
+		ps.setInt(1, pageLimitStart);
+		ps.setInt(2, pageLimitEnd);
 		rs = ps.executeQuery();
 		while (rs.next()) {
 			vacancyList.add(new Vacancy(rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6)));
 		}
-
-		log.info("Select from database items");
 		return vacancyList;
 	}
 

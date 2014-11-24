@@ -55,8 +55,6 @@
 }
 </script>
 
-
-
 <script type="text/javascript">
 	function getSize() {
 		 $.ajax({
@@ -69,6 +67,8 @@
 				//Dont touch
 	});
 }
+</script>
+
 </script>
 <script type="text/javascript">
 	function paginator(id){
@@ -118,32 +118,40 @@ function sortEvents(){
 .poin{
 	cursor: pointer;
 }
+body{
+	margin: 0;}
+.layout{
+	width: 980px; margin:auto;
+}
+.wrap{
+	padding: 20px;
+}
 </style>
 </head>
 
 <body onload = "onStart()">
-
-<div>
+<div class = "layout">
+<div class = "wrap">
 <div id = "f_name"></div>
 <input type = "hidden" id = "size">
 <input type = "hidden" id = "buffer">
 <div style = "float: bottom">
-<input type = "submit" id = "but" onclick = "paginator(3)">
+
 </div>
- <select id = "sort" style = "float: left" onchange = "sortEvents()">
+<div>
+ <select id = "sort" onchange = "sortEvents()">
  	<option disabled ">Сортировка</option>
     <option selected value="datacreation">По дате</option>
     <option value="money">По зарплате</option>
-   </select>
-   
-   <input type = "checkbox" style = "float: left; margin: 5%;" id = "desc" value = "desc"><p>По убывающей</p>
+    <option value="money&date">По зарплате и дате</option>
+   </select><br>
+   <input type = "checkbox" id = "desc" value = "desc" onclick = "sortEvents()">
+   <p>По убывающей</p>
+</div>
 
-<div id ="links">
+<div id ="links" style = "clear:left"></div>
 
-<table><tr><td id = "1"><td id = "2"><td id = "3"> 
-<td id = "4"><td id = "5"><td id = "6">
-<td id = "7"><td id = "8"><td id = "9"><td id = "10">
-</tr></table>
+
 </div>
 </div>
 </body>

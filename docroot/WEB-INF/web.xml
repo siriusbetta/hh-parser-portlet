@@ -8,4 +8,12 @@
 		<servlet-name>myservlet</servlet-name>
 		<url-pattern>/do</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>myservlet-list</servlet-name>
+		<servlet-class>com.portlets.LinksAjaxController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>myservlet-list</servlet-name>
+		<url-pattern>/links</url-pattern>
+	</servlet-mapping>
 </web-app>

@@ -5,7 +5,7 @@ import com.controller.Controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.ServletContext;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,9 +25,7 @@ public class AjaxController extends HttpServlet {
 		if(desc.equals("desc")){
 			descBool = true;
 		}
-		System.out.println(page);
-		System.out.println(orderBy);
-		//System.out.println(desk);
+		
 		int pageNumber = Integer.parseInt(page);
 		int pageLimitStart = pageNumber;
 		int pageLimitEnd = pageNumber + 10;
@@ -35,15 +33,6 @@ public class AjaxController extends HttpServlet {
 				pageLimitEnd, orderBy, descBool);
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
-		//response.setCharacterEncoding("UTF-8");
-		//System.out.println(page);
-		//ServletContext sc = getServletContext();
-		//int count = controller.getVacanciesCount();
-		//String links = getPages(pageLimitStart, count);
-		//request.setAttribute("links", getPages(pageLimitStart, count));
-		//RequestDispatcher rd = sc.getRequestDispatcher("/WEB-INF/jsp/vacancies.jsp");
-		//rd.forward(request, response);
-		//System.out.println(xml + links);
 		out.println(xml);
 	}
 

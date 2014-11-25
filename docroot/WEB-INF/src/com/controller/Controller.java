@@ -28,7 +28,6 @@ public class Controller {
 	VacancyJDBC vd = null;
 	XMLParser xmlParser = null;
 	public Controller() {
-		//System.out.println("Contrller");
 		String dbURL = PortletProps.get("url");
 		String dbUser = PortletProps.get("user");
 		String dbPassword = PortletProps.get("pass");
@@ -70,7 +69,6 @@ public class Controller {
 
 	private void writeToDatabase(ArrayList<Vacancy> vacancyList) {
 
-		//VacancyJDBC	vd = new VacancyJDBC(connection);
 		try {
 			vd.insert(vacancyList);
 		} catch (SQLException sqle) {

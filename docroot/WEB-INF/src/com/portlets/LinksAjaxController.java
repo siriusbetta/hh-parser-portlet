@@ -19,15 +19,16 @@ public class LinksAjaxController extends HttpServlet {
 		System.out.println("asdf");
 		int count = controller.getVacanciesCount();
 		response.setContentType("text/html; charset=UTF-8");
-//		int pages = 0;
-//
-//		if (count % 10 != 0) {
-//			pages = (count /10) + 1;
-//		}else {
-//			pages = count / 10;
-//		}
+		int pages = 0;
 
-		out.println(count);
+		if (count % 10 != 0) {
+			pages = (count /10) + 1;
+		}else {
+			pages = count / 10;
+		}
+		System.out.println(count);
+		System.out.println(pages);
+		out.println(pages);
 	}
 
 }

@@ -16,7 +16,6 @@ public class LinksAjaxController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		PrintWriter out = response.getWriter();
 		
-		System.out.println("asdf");
 		int count = controller.getVacanciesCount();
 		response.setContentType("text/html; charset=UTF-8");
 		int pages = 0;
@@ -26,8 +25,6 @@ public class LinksAjaxController extends HttpServlet {
 		}else {
 			pages = count / 10;
 		}
-		System.out.println(count);
-		System.out.println(pages);
 		out.println(pages);
 	}
 

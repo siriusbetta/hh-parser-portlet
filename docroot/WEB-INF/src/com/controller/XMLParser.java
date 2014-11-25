@@ -39,7 +39,6 @@ public class XMLParser {
 
 		if (pages <= 10) {
 			for (int i = 1; i <= 10; i++) {
-				//builder.e(String.valueOf(i)).t(String.valueOf(i)).up();
 				links += "<" + i +">" + i + "</" + i +">";
 			}
 

@@ -53,13 +53,9 @@ public class VacancyJDBC {
 	}
 
 	public ArrayList<Vacancy> getVacncy(int pageLimitStart, int pageLimitEnd, String orderBy, boolean desk) throws ParseException, SQLException {
-		String desc = "";
+		
 		String sql = "";
-		String orderBy2 = "";
-		//System.out.println(orderBy);
-		if(desk){
-			desc = "desc";
-		}
+		
 		if(orderBy.equals("money")){
 			sql = "select * from vacancy order by salaryfrom, salaryto limit ?, ?";
 			ps = connection.prepareStatement(sql);
